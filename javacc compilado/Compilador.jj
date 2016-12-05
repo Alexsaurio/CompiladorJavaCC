@@ -1,0 +1,416 @@
+options{
+    Ignore_Case = true; 
+	static=false;
+		LOOKAHEAD = 3;
+}
+PARSER_BEGIN(Compilador)
+package compilador;
+import java.util.ArrayList;
+
+public class Compilador{
+	public static ArrayList<String> tablaTok = new ArrayList();
+}
+
+PARSER_END(Compilador)
+
+TOKEN:{ //principales
+
+    <INTMAIN: "int main()">{System.out.println("parte principal de programa: "+image);
+	Compilador.tablaTok.add("parte principal de programa: "+image);} 
+    |<USINGNMST: "using namespace std"> {System.out.println("implementacion de palabras reservadas: "+image);
+	Compilador.tablaTok.add("implementacion de palabras reservadas: "+image);}
+	| <RETURN: "return 0;">{System.out.println("REGRESO DE LA FUNCION: "+image);
+	Compilador.tablaTok.add("REGRESO DE LA FUNCION: "+image);}}
+	
+}
+TOKEN : //oepradores aritmeticos
+{ 
+	 <SUMA : "+" > {System.out.println("MAS: "+image);
+		Compilador.tablaTok.add("MAS: "+image);}
+	| <RESTA:"-">{System.out.println("MENOS: "+image);
+		Compilador.tablaTok.add("MENOS: "+image);}
+	| <MULTI:"*">{System.out.println("MULTIPLICAR: "+image);
+		Compilador.tablaTok.add("MULTIPLICAR: "+image);}
+	| <DIVI:"/">{System.out.println("DIVIDIR: "+image);
+		Compilador.tablaTok.add("DIVIDIR: "+image);}
+	| <INCREMENTO: "++" >{System.out.println("INCREMENTO: "+image);
+		Compilador.tablaTok.add("INCREMENTO: "+image);}
+	| <DECREMENTO: "--" >{System.out.println("DECREMENTO: "+image);
+		Compilador.tablaTok.add("DECREMENTO: "+image);}
+	| <MODU: "%"> {System.out.println("MODULO: "+image);
+		Compilador.tablaTok.add("MODULO: "+image);}
+	
+}
+TOKEN: //operadores de IGUALACION
+{
+     <IGUALACION : "="> {System.out.println("IGUALACION: "+image);
+ 		Compilador.tablaTok.add("IGUALACION: "+image);}
+   | <PORIGUAL : "*="> {System.out.println("ASIGNA PRODUCTO: "+image);
+		Compilador.tablaTok.add("IGUALACION PRODUCTO: "+image);}
+   | <DIVIIGUAL : "/="> {System.out.println("ASIGNA DIVISION: "+image);
+		Compilador.tablaTok.add("ASIGNA DIVISION: "+image);}
+   | <SUMIGUAL: "+="> {System.out.println("ASIGNA SUMA: "+image);
+		Compilador.tablaTok.add("ASIGNA SUMA: "+image);}
+   | <RETIGUAL: "%="> {System.out.println("ASIGNA MODULO: "+image);
+		Compilador.tablaTok.add("ASIGNA MODULO: "+image);}
+   | <MINIGUAL: "-="> {System.out.println("ASIGNA RESTA: "+image);
+		Compilador.tablaTok.add("ASIGNA RESTA: "+image);}
+   
+}
+TOKEN: //operadores Relacionales
+{
+	  <IGUAL: "==" >{System.out.println("SIMBOLO DE OPERACION IGUAL: "+image);
+			Compilador.tablaTok.add("SIMBOLO DE OPERACION IGUAL: "+image);}
+	| <MENORIGUAL: "<=" >{System.out.println("SIMBOLO DE COMPARACION MENOR IGUAL: "+image);
+		Compilador.tablaTok.add("SOMBOLO DE COMPARACION DE MENOR IGUAL: "+image);}
+	| <MAYORIGUAL: ">=" >{System.out.println("SIMBOLO DE COMPARACION MAYOR IGUAL: "+image);
+		Compilador.tablaTok.add("SIMBOLO DE COMPARACION MAYOR IGUAL: "+image);}
+	| <DIFFERENT: "!=" >{System.out.println("SIMBOLO DE COMPARACION DIFERENTE: "+image);
+		Compilador.tablaTok.add("SOMBOLO DE COMPARACION DIFERENTE: "+image);}
+	| <MAYOR: ">" >{System.out.println("SIMBOLO DE COMPARACION MAYOR: "+image);
+		Compilador.tablaTok.add("SIMBOLO DE COMPARACION MAYOR: "+image);}
+	| <MENOR: "<" >{System.out.println("SIMBOLO DE COMPARACION MENOR: "+image);
+		Compilador.tablaTok.add("SIMBOLO DE COMPARACION MENOR: "+image);}
+}
+
+TOKEN: //Operadores logicos
+
+{  
+	<AND: "&&"> {System.out.println("OPERADOR AND: " +image);
+		Compilador.tablaTok.add("OPERADOR AND: "+image);}
+	| <OR: "||"> {System.out.println("OPERADOR OR: "+image);
+		Compilador.tablaTok.add("OPERADOR OR: "+image);}
+	| <NOT: "!"> { System.out.println("OPERADOR NOT: "+image);
+		Compilador.tablaTok.add("OPERADOR NOT: "+image);}
+}
+
+TOKEN: //ENTRADA Y SALIDA DE DATOS 
+{
+	<CAPTURA: "cin">{System.out.println("ENTRADA DE DATOS EN CONSOLA: "+image);	
+		Compilador.tablaTok.add("ENTRADA DE DATOS EN CONSOLA: "+image);}
+	| <IMPRESION: "cout">{System.out.println("SALIDA DE DATOS EN CONSOLA: "+image);	
+		Compilador.tablaTok.add("SALIDA DE DATOS EN CONSOLA: "+image);}
+	| <ENTCIN: ">>">{System.out.println("indacor de entrada de datos: "+image);	
+		Compilador.tablaTok.add("INDICADOR DE ENTRADA DE DATOS: "+image);}
+	| <SALCOUT: "<<">{System.out.println("indicador salida de datos: "+image);	
+		Compilador.tablaTok.add("INDICADOR DE SALIDA DE DATOS: "+image);}
+	| <ENDL: "endl">{System.out.println("indica final de impresion: "+image);	
+		Compilador.tablaTok.add("INDICA FINAL DE LA IMPRESION: "+image);}
+
+
+}
+
+TOKEN: //LIBRERIAS
+
+{
+	 <ESTANDAR: "<iostream.h>" >{System.out.println("PARTE DEL STL QUE CONTIENE ALGORITMOS ESTANDAR: "+image);
+			Compilador.tablaTok.add("pARTE DE STL QUE CONTIENE ALGORITMOS ESTANDAR: "+image);}
+   | <FUNCIONMAT: "<math.h>">{System.out.println("USO Y MANIPULACION DE OPERACIONES MATEMATICAS: "+image);
+		Compilador.tablaTok.add("USO Y MANIPULACION DE OPERACIONES MATEMATICAS: "+image);}
+   | <MATRIZ: "<vector.h>"> {System.out.println("USO DE MATRICES UNIDIMENSIONALES: "+image);
+		Compilador.tablaTok.add("USO DE MATRICES UNIDIMENSIONALES: "+image);}
+   | <CADENA: "<string.h>">{System.out.println("USO DE LAS CADENAS ALFANUMERICAS, CARACTERES, ETC: "+image);
+		Compilador.tablaTok.add("USO DE LAS CADENAS ALFANUMERICAS, CARACTERES, ETC: "+image);}
+   | <LISTA: "<list.h>">{System.out.println("PERMITE IMPLEMENTAR LISTAS DOBLEMENTE ENLAZADAS: "+image);
+		Compilador.tablaTok.add("USO DE LAS CADENAS ALFANUMERICAS, CARACTERES, ETC: "+image);}
+   | <INCLUIR: "#include">{System.out.println("INTRODUCIR LIBRERIAS: "+image);
+		Compilador.tablaTok.add("INTRODUCIR LIBRERIAS: "+image);}
+   | <DEFINIR: "#define">{System.out.println("CREAR CONSTANTES: "+image);
+		Compilador.tablaTok.add("CREAR CONSTANTES: "+image);}
+}
+
+TOKEN: //Palabras reservadas conDICIONALES
+{
+	  <CONIF :"if">{System.out.println("CONDICIONAL IF: "+image);
+			Compilador.tablaTok.add("CONDICIAL IF: "+image);}
+	| <CONELSE :"else" > {System.out.println("CONDICIONAL ELSE: "+image);
+		Compilador.tablaTok.add("CONDICIAL ELSE: "+image);}
+	| <CONSWITCH :"switch" > {System.out.println("CONDICIONAL SWITCH: "+image);
+		Compilador.tablaTok.add("CONDICIAL SWITCH: "+image);}
+    | <OPCASE :"case" > {System.out.println("OPCION DEL SWITCHL: "+image);
+		Compilador.tablaTok.add("CONDICIAL SWITCHL: "+image);}
+
+}
+TOKEN: //Palabras reservadas CICLOS
+{
+	  <FOR :"for">{System.out.println("CICLO FOR: "+image);
+			Compilador.tablaTok.add("CILOC FOR: "+image);}
+        | <WHILE :"while" > {System.out.println("CICLO WHILE: "+image);
+    		Compilador.tablaTok.add("CICLO WHILE: "+image);}
+        | <DOWHILE :"do" > {System.out.println("CICLO DO WHILE: "+image);
+    		Compilador.tablaTok.add("CICLO DO WHILE: "+image);}
+	
+}
+
+TOKEN: //TIPOS DE VARIABLES
+{
+	<TYPEINT: "int">{System.out.println("Tipo Entero: "+image+"\r\n");
+	Compilador.tablaTok.add("Tipo Entero: "+image);}
+	|<TYPELONG: "ling">{System.out.println("Tipo Long:"+image+"\r\n"); 
+	Compilador.tablaTok.add("Tipo Long: "+image);}
+	|<TYPEBOOLEAN: "boolean">{System.out.println("Tipo Boleano:"+image+"\r\n");
+	Compilador.tablaTok.add("Tipo Boleano: "+image);}
+	|<TYPECHAR: "char">{System.out.println("Tipo caracter:"+image+"\r\n");
+	Compilador.tablaTok.add("Tipo caracter: "+image);}
+	|<TYPEFLOAT: "float">{System.out.println("Tipo flotante:"+image+"\r\n");
+	Compilador.tablaTok.add("Tipo flotante: "+image);}
+	|<TYPEDOUBLE: "double">{System.out.println("Tipo double:"+image+"\r\n");
+	Compilador.tablaTok.add("Tipo double: "+image);}	
+
+    | <VALCHAR : (["\""](["a"-"z","A"-"Z","0"-"9"," ","!"-"?"])+["\""])> {System.out.println("VALORES DE TIPO CARACTER: "+image);
+		Compilador.tablaTok.add("VALORES TIPOS CARACTER: "+image);}
+    | <VALFLOAT : (["0"-"9"])+(".")(["0"-"9"])+> {System.out.println("VALORES REALES EN PUNTO FLOTANTE: "+image);
+		Compilador.tablaTok.add("VALORES REALES EN PUNTO FLOTANT: "+image);}
+    | <VALINT : (["0"-"9"])+ >{System.out.println("VALINTS: "+image);
+		Compilador.tablaTok.add("VALINTS: "+image);}
+    | <VALLONG : (["0"-"9"])+ >{System.out.println(" VALINTS MUY GRANDES: "+image);
+		Compilador.tablaTok.add("VALINTS MUY GRANDES: "+image);}
+	| <VALDOUBLE: (["0"-"9"])+(".")(["0"-"9"])+>{System.out.println("ALMACENA VALORES REALES EN DOBLE PRECISION:"+image);
+		Compilador.tablaTok.add("ALMACENA VALORES REALES EN DOBLE PRECISION: "+image);}
+	| <VALBOOL: "false" | "true"> {System.out.println(" VALORES 1 Y 0:"+image);
+		Compilador.tablaTok.add("VALORES 1 Y 0: "+image);}
+	| <VALSHORT: (["0"-"9"])+> {System.out.println("VALINTS MUY PEQUEÑOS:"+image);
+		Compilador.tablaTok.add("VALINTS MUY PEQUEÑOS: "+image);}
+	| <VARIABLE : ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])*> {System.out.println("VARIABLES: "+image);
+		Compilador.tablaTok.add("VARIABLES: "+image);}
+
+	
+}
+
+TOKEN : //limitadores
+{
+	<COMA :",">{System.out.println("SEPARADOR: "+image);
+			Compilador.tablaTok.add("SEPARADOR: "+image);}
+	| <LIMITANTE :";" > {System.out.println("punto y coma: "+image);
+			Compilador.tablaTok.add("PUNTO Y COMA: "+image);}
+    | <PUNTUAR :":" > {System.out.println("dos puntos: "+image);
+			Compilador.tablaTok.add("DOS PUNTOS: "+image);}
+	| <PARIZQ: "("> {System.out.println("COMIENZO DE UNA AGRUPACION DE EXPRESIONES: "+image);
+			Compilador.tablaTok.add("COMIENZO DE UNA AGRUPACION DE EXPRESIONES: "+image);}
+	| <PARDER: ")"> {System.out.println("FINAL DE UNA AGRUPACION DE EXPRESIONES: "+image);
+			Compilador.tablaTok.add("FINAL DE UNA AGRUPACION DE EXPRESIONES: "+image);}
+    | <CORIZQ: "["> {System.out.println("INDICAN SUBINDICES DE MATRICES UNI Y MULTIDIMENSIONALES: "+image);
+    			Compilador.tablaTok.add("INDICAN SUBINDICES DE MATRICES UNI Y MULTIDIMENSIONALES: "+image);}
+	| <CORDER: "]"> {System.out.println("INDICAN SUBINDICES DE MATRICES UNI Y MULTIDIMENSIONALES: "+image);
+			Compilador.tablaTok.add("INDICAN SUBINDICES DE MATRICES UNI Y MULTIDIMENSIONALES: "+image);}
+	| <LLAIZQ: "{"> {System.out.println("COMIENZO DE UNA SENTENCIA COMPUESTA: "+image);
+			Compilador.tablaTok.add("COMIENZO DE UNA SENTENCIA COMPUESTA: "+image);}
+	| <LLADER: "}"> {System.out.println("FINAL DE UNA SENTENCIA COMPUESTA: "+image);
+			Compilador.tablaTok.add("FINAL DE UNA SENTENCIA COMPUESTA: "+image);}
+	| <COMENTA: "//"> {System.out.println("INICIO DE COMENTARIO: "+image);
+			Compilador.tablaTok.add("INICIO DE COMENTARIO: "+image);}
+}
+TOKEN : // NO ADMITIDOS
+{
+	<ERROR: "´" | "°" | "!" | "¡" | "?" | "¿" | "¬" | "$" | "¨" | "^" | "~" | "@" | "`" | "'" | "\\">{
+		System.out.println("ERROR CARACTER NO ADMITIDO: "+image);
+	    Compilador.tablaTok.add("ERROR CARACTO NO ADMITIDO: "+image);
+	}
+}
+
+SKIP : //EXCLUSIONES
+{ 
+	" "|"\n" | "\r" | "\r\n" |"\t"
+}
+
+void Programa():
+ {}
+ {  
+		<INCLUIR> 
+		(<ESTANDAR>|<FUNCIONMAT>|<MATRIZ>|<CADENA>|<LISTA>) 
+        (<DEFINIR><VARIABLE><VALINT><LIMITANTE>)?
+        <USINGNMST><LIMITANTE>
+        Principal()                  
+        <EOF>             
+  }
+
+void Principal():
+{}
+{
+	<INTMAIN>
+		<LLAIZQ>
+			 Sentencias()
+			 <RETURN>
+					<LLADER>
+}
+	
+void Sentencias():
+ {}
+  {
+	
+		(Declaraciones()
+		| Impresiones()
+		| SentenciaIf()
+		| SentenciaFor()
+		| SentenciaWhile()
+		| IGUALACIONes()
+		)*
+		
+  }
+
+  
+  void Declaraciones():
+  {}
+  {
+	( TipoDeDato()
+			<VARIABLE>
+					<LIMITANTE>  
+						Vuelta() )
+	|
+		( TipoDeDato()
+			<VARIABLE>
+					<IGUALACION>
+						Valor()
+							<LIMITANTE>  
+								Vuelta() 
+											)
+}		
+
+void Vuelta():
+{}
+
+{
+( Declaraciones() | Sentencias() )
+}								
+	
+void SentenciaIf():
+{}
+	{
+	( <CONIF>
+    <PARIZQ> 
+        Comparaciones() 
+            <PARDER>
+                <LLAIZQ>  
+                    Sentencias()
+                        <LLADER>
+							<CONELSE>
+								<LLAIZQ> 
+									Sentencias() 
+										<LLADER>
+	|
+	
+ <CONIF>
+    <PARIZQ> 
+        Comparaciones() 
+            <PARDER>
+                <LLAIZQ>  
+                    Sentencias()
+                        <LLADER> )
+			}
+			
+	
+	
+void SentenciaFor():
+{}
+{
+	
+<FOR>
+  <PARIZQ>
+           IGUALACIONes()
+              <LIMITANTE> 
+                Comparaciones()
+                    <LIMITANTE>
+                        <VARIABLE>
+                            (<INCREMENTO>|<DECREMENTO>)
+                                <PARDER>
+                                    <LLAIZQ> 
+                                        Sentencias () 
+                                            <LLADER>
+		}
+
+
+void SentenciaWhile():
+{}
+{
+
+<WHILE>
+    <PARIZQ> 
+        Comparaciones() 
+            <PARDER>              
+                <LLAIZQ>  
+                    Sentencias()
+                        <LLADER>
+
+}
+	
+	
+void Impresiones():
+{}
+{
+	<IMPRESION>	
+		<SALCOUT>
+			datosImprimibles()
+								<LIMITANTE>
+			}
+			
+void datosImprimibles() :
+ {}
+ {
+	<VALCHAR> | <VARIABLE> | <VALINT>
+}
+			
+void IGUALACIONes():
+{}
+	{
+		TipoDeDato()
+				<VARIABLE>
+						<IGUALACION>
+							(<VARIABLE> |<VALINT>)
+		}
+		
+void Comparaciones():
+{}
+{
+	Valor()	
+		Operadores()
+				Valor()
+}
+
+void Valor():
+{}
+{	
+	<VARIABLE> | <VALINT>
+}
+	
+	
+  
+  void Operadores():
+{}
+
+{
+	
+	<MAYOR> 
+	
+	|
+	<MENOR> 
+	
+	|
+	<IGUAL> 
+	
+	|
+	<DIFFERENT> 
+	
+	|
+	<MAYORIGUAL>
+	
+	|
+	<MENORIGUAL>
+	
+	|
+	<IGUAL>
+	
+}
+
+void TipoDeDato():
+{}
+{
+	(<TYPELONG>|<TYPEBOOLEAN>|<TYPECHAR>|<TYPEINT>|<TYPEFLOAT>|<TYPEDOUBLE>)
+}
+	
+void OperadorIncremental():
+{}
+{
+	(<INCREMENTO>|<DECREMENTO>|<SUMA><IGUALACION><VALINT>|<RESTA><IGUALACION><VALINT>)
+}
+
+
